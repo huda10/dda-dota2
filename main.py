@@ -4,7 +4,7 @@
 # In[8]:
 
 
-from flask import *
+from flask import Flask
 import numpy as np
 import pandas as pd
 from os import path
