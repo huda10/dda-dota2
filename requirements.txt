@@ -1,6 +1,7 @@
 ﻿absl-py==0.6.1
 astor==0.7.1
 Cython==0.29
+Flask
 gast==0.2.0
 grpcio==1.16.0
 gunicorn==19.9.0
@@ -10,6 +11,7 @@ Keras-Applications==1.0.6
 Keras-Preprocessing==1.0.5
 Markdown==3.0.1
 numpy==1.15.3
+pandas
 protobuf==3.6.1
 PyYAML==3.13
 scipy==1.1.0
@@ -18,4 +20,4 @@ tensorboard==1.11.0
 tensorflow==1.11.0
 termcolor==1.1.0
 Werkzeug==0.15.4
-Flask
+
