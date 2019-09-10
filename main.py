@@ -5,6 +5,10 @@
 
 
 from flask import *
+from flask_sqlalchemy import SQLAlchemy
+import sys
+import json
+from flask_heroku import Heroku
 import numpy as np
 import pandas as pd
 from os import path
@@ -74,6 +78,40 @@ loaded_model2.compile(loss='binary_crossentropy', optimizer='adam', metrics=['ac
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+heroku = Heroku(app)
+db = SQLAlchemy(app)
+
+class Dataskills(db.Model):
+    __tablename__ = "Dataskills"
+    id = db.Column(db.Integer, primary_key=True)
+    matchId = db.Column(db.char[])
+    kills = db.Column(db.double)
+    deaths = db.Column(db.double)
+    assists = db.Column(db.double)
+    last_hits = db.Column(db.double)
+    denies = db.Column(db.double)
+    gold_per_min = db.Column(db.double)
+    xp_per_min = db.Column(db.double)
+    capability_level = db.Column(db.double)
+    potency_level = db.Column(db.double)
+    time = db.Column(db.double)
+    final_level = db.Column(db.double)
+
+    def __init__ (self, matchId, kills, deaths, assists, last_hits, denies, gold_per_min, xp_per_min, capability_level, potency_level, 
+                 time, final_level):
+        self.matchId = matchId
+        self.kills = kills
+        self.deaths = deaths
+        self.assists = assists
+        self.last_hits = last_hits
+        self.denies = denies
+        self.gold_per_min = gold_per_min
+        self.xp_per_min = xp_per_min
+        self.capability_level = capability_level
+        self.potency_level = potency_level
+        self.time = time
+        self.final_level = final_level
 
 
 # In[14]:
@@ -107,14 +145,17 @@ def save():
         p=loaded_model2.predict(np.array([input2]))[0]
     potency_level, value = max(enumerate(p), key=operator.itemgetter(1))
     final_level = math.ceil((capability_level + potency_level) / 2.0)
-    fname = path.expanduser('static/dota2 player_skill.csv')
-    dataSet = pd.read_csv(fname)
-    idn = len(dataSet) + 1
-    dataSet = dataSet.append({"id": idn,"matchId": matchid, "kills": kills, "deaths": deaths, "assists": assists, "last_hits": last_hits,
-                              "denies": denies, "gold_per_min": gold_per_min, "xp_per_min": xp_per_min,
-                             "capability_level": capability_level, "potency_level": potency_level, "time": time,
-                             "final_level": final_level} , ignore_index=True)
-    dataSet.to_csv(fname, index=False)
+    indata = Dataskills(matchid, kills, deaths, assists, last_hits, denies, gold_per_min, xp_per_min, capability_level, potency_level,
+                       time, final_level)
+    data = copy(indata. __dict__ )
+    del data["_sa_instance_state"]
+    try:
+        db.session.add(indata)
+        db.session.commit()
+    except Exception as e:
+        print("\n FAILED entry: {}\n".format(json.dumps(data)))
+        print(e)
+        sys.stdout.flush()
     return "%i" %final_level 
 
 
