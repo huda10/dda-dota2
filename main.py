@@ -10,7 +10,6 @@ import sys
 import json
 from flask_heroku import Heroku
 import numpy as np
-import pandas as pd
 from os import path
 import math
 import keras
