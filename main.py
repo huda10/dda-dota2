@@ -147,8 +147,6 @@ def save():
     final_level = math.ceil((capability_level + potency_level) / 2.0)
     indata = Dataskills(matchid, kills, deaths, assists, last_hits, denies, gold_per_min, xp_per_min, capability_level, potency_level,
                        time, final_level)
-    data = copy(indata. __dict__ )
-    del data["_sa_instance_state"]
     try:
         db.session.add(indata)
         db.session.commit()
@@ -194,4 +192,3 @@ def saveMatchInfo():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
