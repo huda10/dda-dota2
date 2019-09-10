@@ -15,6 +15,7 @@ Markdown==3.0.1
 numpy==1.15.3
 pandas
 protobuf==3.6.1
+psycopg2
 PyYAML==3.13
 scipy==1.1.0
 six==1.11.0
