@@ -199,11 +199,6 @@ def saveMatchInfo():
         print("\n FAILED entry: {}\n".format(json.dumps(indata)))
         print(e)
         sys.stdout.flush()
-	fname = path.expanduser('static/dota2 match_info.csv')
-    dataSet = pd.read_csv(fname)
-    dataSet = dataSet.append({"matchId": matchid, "steamId": steamid, "match_time": match_time, "difficulty_option": DiffOp}, 
-                             ignore_index=True)
-    dataSet.to_csv(fname, index=False)
     return "information is saved"
 
 
