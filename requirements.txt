@@ -2,10 +2,13 @@
 astor==0.7.1
 Cython==0.29
 Flask
+flask_heroku
+flask_sqlalchemy
 gast==0.2.0
 grpcio==1.16.0
 gunicorn==19.9.0
 h5py==2.8.0
+json
 Keras==2.2.4
 Keras-Applications==1.0.6
 Keras-Preprocessing==1.0.5
@@ -16,6 +19,7 @@ protobuf==3.6.1
 PyYAML==3.13
 scipy==1.1.0
 six==1.11.0
+sys
 tensorboard==1.11.0
 tensorflow==1.11.0
 termcolor==1.1.0
