@@ -114,6 +114,7 @@ class Dataskills(db.Model):
 
 class Matchinfo(db.Model):
     __tablename__ = "Matchinfo"
+	id = db.Column(db.Integer, primary_key=True)
     matchId = db.Column(db.String(32))
     steamId = db.Column(db.String(32))
     match_time = db.Column(db.Float)
