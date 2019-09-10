@@ -113,6 +113,18 @@ class Dataskills(db.Model):
         self.time = time
         self.final_level = final_level
 
+class Matchinfo(db.Model):
+    __tablename__ = "Matchinfo"
+    matchId = db.Column(db.String(32))
+	steamId = db.Column(db.String(32))
+    match_time = db.Column(db.Float)
+    difficulty_option = db.Column(db.String(32))
+
+    def __init__ (self, matchId, steamId, match_time, difficulty_option):
+        self.matchId = matchId
+        self.steamId = steamId
+        self.match_time = match_time
+        self.difficulty_option = difficulty_option
 
 # In[14]:
 
@@ -151,7 +163,7 @@ def save():
         db.session.add(indata)
         db.session.commit()
     except Exception as e:
-        print("\n FAILED entry: {}\n".format(json.dumps(data)))
+        print("\n FAILED entry: {}\n".format(json.dumps(indata)))
         print(e)
         sys.stdout.flush()
     return "%i" %final_level 
@@ -179,7 +191,15 @@ def saveMatchInfo():
         DiffOp = "Unfair"
     elif difficulty_option == 5:
         DiffOp = "Dynamic"
-    fname = path.expanduser('static/dota2 match_info.csv')
+    indata = Matchinfo(matchid, steamid, match_time, DiffOp)
+    try:
+        db.session.add(indata)
+        db.session.commit()
+    except Exception as e:
+        print("\n FAILED entry: {}\n".format(json.dumps(indata)))
+        print(e)
+        sys.stdout.flush()
+	fname = path.expanduser('static/dota2 match_info.csv')
     dataSet = pd.read_csv(fname)
     dataSet = dataSet.append({"matchId": matchid, "steamId": steamid, "match_time": match_time, "difficulty_option": DiffOp}, 
                              ignore_index=True)
