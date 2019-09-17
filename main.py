@@ -18,4 +18,5 @@ def save():
     return "Information is saved successfully." 
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.debug = True
+    app.run()
